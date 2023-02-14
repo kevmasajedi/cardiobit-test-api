@@ -35,6 +35,7 @@ const dbOps = {
 
           db.run(`CREATE TABLE ecg(
                   id INTEGER PRIMARY KEY UNIQUE,
+                  sample_count INTEGER,
                   l1 TEXT,
                   l2 TEXT,
                   v1 TEXT,

@@ -1,6 +1,8 @@
 const express = require("express");
-const app = express();
 const dbOps = require("./db");
+
+const app = express();
+app.use(express.json()); 
 
 dbOps.createECGTable();
 
@@ -17,8 +19,12 @@ app.get("/ecg", (req, res) => {
     })
 })
 app.post("/mirror", (req,res) => { 
-    console.log(req.headers); 
-    console.log(req.body);  
+    const sql = 'INSERT INTO ecg (sample_count, l1, l2, v1, v6) VALUES (?, ? , ? , ? , ?)';  
+    const body = req.body ; 
+    dbOps.db.run(sql, [body.Samples, body.L1, body.L2, body.V1, body.V6],(err,rows) => {
+        if (err) return console.error(err.message); 
+        console.log(`Data inserted, ID: ${this.lastID}`);
+    });
 })
 app.listen(3000, '0.0.0.0'  ,() => {
   console.log("Server started on port 3000");
